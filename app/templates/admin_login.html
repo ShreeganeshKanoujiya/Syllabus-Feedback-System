@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Syllabus Feedback System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-blue { background-color: #2fa3c7; }
+        .text-brand-blue { color: #2fa3c7; }
+        .focus-ring-blue:focus { outline: 2px solid #2fa3c7; box-shadow: 0 0 0 3px rgba(47, 163, 199, 0.1); }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <div class="flex flex-col md:flex-row h-screen w-full bg-white">
+        
+        <div class="md:w-1/2 brand-blue p-12 flex flex-col justify-between text-white relative">
+            <div>
+                <div class="bg-white p-2 inline-block rounded shadow-md">
+                    <img src="/static/images/sies_ascn_logo.jpg" class="h-16 md:h-20" alt="SIES Logo">
+                </div>
+            </div>
+            
+            <div class="mb-20">
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight tracking-wide">
+                    Syllabus Feedback<br>System
+                </h1>
+            </div>
+            
+            <div class="hidden md:block">
+                </div>
+        </div>
+
+        <div class="md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+            <div class="max-w-md mx-auto w-full">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Admin Login</h2>
+                <p class="text-gray-500 text-lg mb-10">Welcome back! Please fill your login details.</p>
+
+                <form action="/admin/login" method="POST" class="space-y-8">
+                    <div>
+                        <label class="block text-gray-700 font-bold text-lg mb-3">User Name</label>
+                        <input type="text" name="username" placeholder="Enter Username" required
+                            class="w-full px-4 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2fa3c7] text-lg transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 font-bold text-lg mb-3">Password</label>
+                        <input type="password" name="password" placeholder="Enter Password" required
+                            class="w-full px-4 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2fa3c7] text-lg transition">
+                    </div>
+
+                    <div class="text-right">
+                        <a href="#" class="text-gray-500 hover:text-brand-blue font-medium transition">Forget Login details?</a>
+                    </div>
+
+                    <button type="submit" 
+                        class="w-full brand-blue text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg text-xl tracking-wide">
+                        Login
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

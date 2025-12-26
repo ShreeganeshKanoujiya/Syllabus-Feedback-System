@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIES College Feedback Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- NAVBAR -->
+    <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
+        <div class="flex items-center gap-3">
+            <img src="/static/images/sies_ascn_logo.jpg" class="h-12" alt="SIES Logo">
+            <h2 class="text-xl font-semibold text-gray-800">
+                SIES (Nerul) College of Arts, Science & Commerce (Autonomous)
+            </h2>
+        </div>
+
+        <nav class="hidden md:flex gap-8 text-gray-700 font-medium">
+            <a href="#" class="hover:text-blue-600">Home</a>
+            <a href="#" class="hover:text-blue-600">About</a>
+            <a href="#" class="hover:text-blue-600">Contact</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="text-center py-28 bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Welcome to the Official Feedback Portal
+        </h1>
+        <p class="max-w-2xl mx-auto text-lg opacity-90">
+            Help us improve the quality of education and student experience by sharing your valuable feedback.
+        </p>
+
+        <button 
+            onclick="startFeedback()"
+            class="mt-8 bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-100 transition">
+            Start Feedback
+        </button>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="py-20 px-6 md:px-20 flex flex-wrap justify-center gap-8">
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-72 text-center">
+            <h3 class="text-xl font-semibold text-blue-600 mb-2">Purpose-Driven Feedback</h3>
+            <p class="text-gray-600">Every response is reviewed to support meaningful change.</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-72 text-center">
+            <h3 class="text-xl font-semibold text-blue-600 mb-2">Fast & Easy</h3>
+            <p class="text-gray-600">Complete your feedback in just a few minutes.</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-72 text-center">
+            <h3 class="text-xl font-semibold text-blue-600 mb-2">Quality Improvement</h3>
+            <p class="text-gray-600">Your responses help enhance the learning environment.</p>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 bg-white text-gray-600 border-t">
+        © 2025 SIES College | Feedback Portal
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

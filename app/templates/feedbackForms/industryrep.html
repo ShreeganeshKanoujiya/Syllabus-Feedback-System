@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industry Representative Feedback</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
+    <div class="flex items-center gap-3">
+      <img src="/static/images/sies_ascn_logo.jpg" class="h-12" alt="SIES Logo">
+      <h2 class="text-xl font-semibold text-gray-800">
+        SIES (Nerul) College of Arts, Science and Commerce (Autonomous)
+      </h2>
+    </div>
+  </header>
+
+  <section class="text-center py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4">
+    <h1 class="text-4xl font-bold mb-2">Industry Representative Feedback Form</h1>
+    <p class="text-lg opacity-90">Please rate the following aspects from 1 (poor) to 5 (excellent)</p>
+  </section>
+
+  <section class="py-16 px-6 md:px-20 bg-white rounded-t-3xl shadow-md -mt-12">
+    <form id="feedbackForm" class="space-y-8">
+
+      <div>
+        <label class="block font-semibold mb-2">1. How satisfied are you with industry-collaboration initiatives?</label>
+        <div class="flex gap-4">
+          <label><input type="radio" name="q1" value="1">1</label>
+          <label><input type="radio" name="q1" value="2">2</label>
+          <label><input type="radio" name="q1" value="3">3</label>
+          <label><input type="radio" name="q1" value="4">4</label>
+          <label><input type="radio" name="q1" value="5">5</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-2">2. How would you rate the student readiness for industry requirements?</label>
+        <div class="flex gap-4">
+          <label><input type="radio" name="q2" value="1">1</label>
+          <label><input type="radio" name="q2" value="2">2</label>
+          <label><input type="radio" name="q2" value="3">3</label>
+          <label><input type="radio" name="q2" value="4">4</label>
+          <label><input type="radio" name="q2" value="5">5</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-2">3. How satisfied are you with college-industry engagement events?</label>
+        <div class="flex gap-4">
+          <label><input type="radio" name="q3" value="1">1</label>
+          <label><input type="radio" name="q3" value="2">2</label>
+          <label><input type="radio" name="q3" value="3">3</label>
+          <label><input type="radio" name="q3" value="4">4</label>
+          <label><input type="radio" name="q3" value="5">5</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-2">4. Overall satisfaction with industry collaboration?</label>
+        <div class="flex gap-4">
+          <label><input type="radio" name="q4" value="1">1</label>
+          <label><input type="radio" name="q4" value="2">2</label>
+          <label><input type="radio" name="q4" value="3">3</label>
+          <label><input type="radio" name="q4" value="4">4</label>
+          <label><input type="radio" name="q4" value="5">5</label>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+          Submit Feedback
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <footer class="text-center py-6 bg-gray-50 text-gray-600">
+    © 2025 SIES College | Feedback Portal
+  </footer>
+<script src="../script.js"></script>
+
+</body>
+</html>

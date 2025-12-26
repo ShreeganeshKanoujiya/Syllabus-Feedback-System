@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Category</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
+        <div class="flex items-center gap-3">
+            <img src="/static/images/sies_ascn_logo.jpg" class="h-12" alt="SIES Logo">
+            <h2 class="text-xl font-semibold text-gray-800">
+                SIES (Nerul) College of Arts, Science and Commerce (Autonomous)
+            </h2>
+        </div>
+    </header>
+
+    <section class="text-center py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4">
+        <h1 class="text-4xl font-bold mb-2">Select Your Category</h1>
+        <p class="text-lg opacity-90">Please choose the category that best represents you.</p>
+    </section>
+
+    <section class="py-16 px-6 md:px-20 bg-gray-50 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div onclick="goTo('studentfeedback')"
+             class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-2xl p-8 shadow-lg cursor-pointer hover:scale-105 hover:from-blue-500 hover:to-blue-400 transition text-center">
+            <h3 class="text-xl font-semibold mb-2">Student</h3>
+            <p class="opacity-90">Feedback from current students.</p>
+        </div>
+
+        <div onclick="goTo('parentfeedback')"
+             class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-2xl p-8 shadow-lg cursor-pointer hover:scale-105 hover:from-blue-500 hover:to-blue-400 transition text-center">
+            <h3 class="text-xl font-semibold mb-2">Parent</h3>
+            <p class="opacity-90">Feedback from parents/guardians.</p>
+        </div>
+
+        <div onclick="goTo('alumnifeedback')"
+             class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-2xl p-8 shadow-lg cursor-pointer hover:scale-105 hover:from-blue-500 hover:to-blue-400 transition text-center">
+            <h3 class="text-xl font-semibold mb-2">Alumni</h3>
+            <p class="opacity-90">Feedback from past students.</p>
+        </div>
+
+        <div onclick="goTo('internalfaculty')"
+             class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-2xl p-8 shadow-lg cursor-pointer hover:scale-105 hover:from-blue-500 hover:to-blue-400 transition text-center">
+            <h3 class="text-xl font-semibold mb-2">Internal Faculty</h3>
+            <p class="opacity-90">Feedback from teaching staff.</p>
+        </div>
+
+        <div onclick="goTo('externalfaculty')"
+             class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-2xl p-8 shadow-lg cursor-pointer hover:scale-105 hover:from-blue-500 hover:to-blue-400 transition text-center">
+            <h3 class="text-xl font-semibold mb-2">External Faculty</h3>
+            <p class="opacity-90">Feedback from external academic visitors.</p>
+        </div>
+
+        <div onclick="goTo('industryrep')"
+             class="bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-2xl p-8 shadow-lg cursor-pointer hover:scale-105 hover:from-blue-500 hover:to-blue-400 transition text-center">
+            <h3 class="text-xl font-semibold mb-2">Industry Representatives</h3>
+            <p class="opacity-90">Feedback from corporate & industry partners.</p>
+        </div>
+
+    </section>
+
+    <footer class="text-center py-6 bg-white text-gray-600">
+        © 2025 SIES College | Feedback Portal
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
