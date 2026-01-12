@@ -171,5 +171,3 @@ INSERT INTO syllabus_question (text) VALUES
 ('[STUDENT][SYLLABUS] How satisfied are you with the flexibility offered by NEP (electives, skill-based courses, multidisciplinary learning)?'),
 ('[STUDENT][SYLLABUS] Any other feedback or suggestions regarding curriculum, NEP implementation, or overall learning experience.');
 
-
-select 
