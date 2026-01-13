@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-800 text-white p-4 shadow-lg">
+        <h1 class="text-2xl font-bold">Feedback Admin Panel</h1>
+    </nav>
+
+    <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500">
+            <h3 class="text-gray-500 font-semibold">Total Responses</h3>
+            <p class="text-4xl font-bold">{{ total_feedback }}</p>
+        </div>
+
+        <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-md">
+            <h3 class="text-xl font-bold mb-4">Recent Feedback</h3>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b">
+                        <th class="py-2">Stakeholder</th>
+                        <th class="py-2">Avg Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in stakeholders %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-2">{{ s.stakeholder_type }}</td>
+                        <td class="py-2 text-blue-600 font-bold">View Details</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

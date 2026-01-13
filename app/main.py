@@ -4,22 +4,23 @@ from typing import Annotated
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-# import models
-# from database import engine, SessionLocal
-# from sqlalchemy.orm import Session
+import models
+from database import engine, SessionLocal
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
-# models.Base.metadata.create_all(bind=engine)
+# Create the tables in MySQL automatically based on models.py
+models.Base.metadata.create_all(bind=engine)
 
-# def get_db():
-#     db = SessionLocal
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+# Dependency to get the database session
+def get_db():
+    db = SessionLocal() # Create a new session 
+    try:
+        yield db
+    finally:
+        db.close() # Ensure session closes after the request
 
-# db_dependency = Annotated(Session, Depends(get_db))
 
 # Mount static files for images and JS
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -48,3 +49,22 @@ async def submit_form(request: Request):
 @app.get("/admin/login", response_class=HTMLResponse)
 async def admin_login_page(request: Request):
     return templates.TemplateResponse("admin_login.html", {"request": request})
+
+# @app.get("/admin/dashboard", response_class=HTMLResponse)
+# async def admin_dashboard(request: Request, db: Session = Depends(get_db)):
+#     # Fetch data to display on dashboard
+#     total_feedback = db.query(models.FeedbackAnswer).count()
+#     stakeholders = db.query(models.Stakeholder).all()
+    
+#     return templates.TemplateResponse("admin_dashboard.html", {
+#         "request": request, 
+#         "total_feedback": total_feedback,
+#         "stakeholders": stakeholders
+#     })
+
+
+# Example: A route that uses the database
+@app.get("/stakeholders")
+def get_stakeholders(db: Session = Depends(get_db)):
+    # Query all stakeholders from the database table 
+    return db.query(models.Stakeholder).all()
