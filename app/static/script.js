@@ -9,6 +9,3 @@ function goTo(pageName) {
     window.location.href = "/feedback/" + pageName;
 }
 
-function submit(){
-    window.location.href = "/submitted-feedback";
-}

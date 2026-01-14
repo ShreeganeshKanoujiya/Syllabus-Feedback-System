@@ -23,51 +23,32 @@
   </section>
 
   <section class="py-16 px-6 md:px-20 bg-white rounded-t-3xl shadow-md -mt-12">
-    <form id="feedbackForm" class="space-y-8">
+    <form action="/submit-feedback" method="post" class="space-y-8">
+      <input type="hidden" name="form_name" value="{{ form_name }}">
 
-      <div>
-        <label class="block font-semibold mb-2">1. How satisfied are you with industry-collaboration initiatives?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q1" value="1">1</label>
-          <label><input type="radio" name="q1" value="2">2</label>
-          <label><input type="radio" name="q1" value="3">3</label>
-          <label><input type="radio" name="q1" value="4">4</label>
-          <label><input type="radio" name="q1" value="5">5</label>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block font-semibold mb-2">Representative Name <span class="text-red-500">*</span></label>
+          <input type="text" name="name" required class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block font-semibold mb-2">Company / Organization</label>
+          <input type="text" name="association_name" class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
       </div>
 
+      {% for q in questions %}
       <div>
-        <label class="block font-semibold mb-2">2. How would you rate the student readiness for industry requirements?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q2" value="1">1</label>
-          <label><input type="radio" name="q2" value="2">2</label>
-          <label><input type="radio" name="q2" value="3">3</label>
-          <label><input type="radio" name="q2" value="4">4</label>
-          <label><input type="radio" name="q2" value="5">5</label>
+        <label class="block font-semibold mb-2">{{ loop.index }}. {{ q.text }} <span class="text-red-500">*</span></label>
+        <div class="flex gap-4 flex-wrap">
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="1" required class="w-4 h-4"> 1</label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="2" required class="w-4 h-4"> 2</label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="3" required class="w-4 h-4"> 3</label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="4" required class="w-4 h-4"> 4</label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="5" required class="w-4 h-4"> 5</label>
         </div>
       </div>
-
-      <div>
-        <label class="block font-semibold mb-2">3. How satisfied are you with college-industry engagement events?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q3" value="1">1</label>
-          <label><input type="radio" name="q3" value="2">2</label>
-          <label><input type="radio" name="q3" value="3">3</label>
-          <label><input type="radio" name="q3" value="4">4</label>
-          <label><input type="radio" name="q3" value="5">5</label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-semibold mb-2">4. Overall satisfaction with industry collaboration?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q4" value="1">1</label>
-          <label><input type="radio" name="q4" value="2">2</label>
-          <label><input type="radio" name="q4" value="3">3</label>
-          <label><input type="radio" name="q4" value="4">4</label>
-          <label><input type="radio" name="q4" value="5">5</label>
-        </div>
-      </div>
+      {% endfor %}
 
       <div class="text-center">
         <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
