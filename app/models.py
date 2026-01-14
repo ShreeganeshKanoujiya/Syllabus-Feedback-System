@@ -27,7 +27,7 @@ class StakeholderPersonalInfo(Base):
 class SyllabusQuestion(Base):
     __tablename__ = "syllabus_question"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    text = Column(Text, nullable=False)
+    text = Column(String(255), nullable=False)
 
 # 5. Table: admin_user 
 class AdminUser(Base):
