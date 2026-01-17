@@ -6,8 +6,10 @@
   <title>Alumni Feedback</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-800">
 
+  <!-- HEADER -->
   <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
     <div class="flex items-center gap-3">
       <img src="/static/images/sies_ascn_logo.jpg" class="h-12" alt="SIES Logo">
@@ -17,77 +19,137 @@
     </div>
   </header>
 
+  <!-- PAGE TITLE -->
   <section class="text-center py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4">
     <h1 class="text-4xl font-bold mb-2">Alumni Feedback Form</h1>
-    <p class="text-lg opacity-90">Please rate the following aspects from 1 (poor) to 5 (excellent)</p>
+    <p class="text-lg opacity-90">
+      Please rate the following aspects from 1 (poor) to 5 (excellent)
+    </p>
   </section>
 
+  <!-- FORM -->
   <section class="py-16 px-6 md:px-20 bg-white rounded-t-3xl shadow-md -mt-12">
-<form id="feedbackForm" action="/submitted-feedback" method="get" class="space-y-8">
-      
-      <div>
-        <label class="block font-semibold mb-2">1. Relevance of Syllabus Content – How well does the syllabus align with industry trends?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q82" value="1" required> 1</label>
-          <label><input type="radio" name="q82" value="2"> 2</label>
-          <label><input type="radio" name="q82" value="3"> 3</label>
-          <label><input type="radio" name="q82" value="4"> 4</label>
-          <label><input type="radio" name="q82" value="5"> 5</label>
-        </div>
-      </div>
+    <form action="/submit-feedback" method="post" class="space-y-8">
 
-      <div>
-        <label class="block font-semibold mb-2">2. Depth and Coverage – Balanced mix of fundamental and advanced topics?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q83" value="1" required> 1</label>
-          <label><input type="radio" name="q83" value="2"> 2</label>
-          <label><input type="radio" name="q83" value="3"> 3</label>
-          <label><input type="radio" name="q83" value="4"> 4</label>
-          <label><input type="radio" name="q83" value="5"> 5</label>
-        </div>
-      </div>
+      <input type="hidden" name="form_name" value="{{ form_name }}">
 
+      {% for q in questions %}
       <div>
-        <label class="block font-semibold mb-2">3. Practical Application – Integration of hands-on learning and industry use cases?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q84" value="1" required> 1</label>
-          <label><input type="radio" name="q84" value="2"> 2</label>
-          <label><input type="radio" name="q84" value="3"> 3</label>
-          <label><input type="radio" name="q84" value="4"> 4</label>
-          <label><input type="radio" name="q84" value="5"> 5</label>
-        </div>
-      </div>
+        <label class="block font-semibold mb-2">
+          {{ loop.index }}. {{ q.text }}
+          {% if q.category != "SUGGESTION" %}
+            <span class="text-red-500">*</span>
+          {% endif %}
+        </label>
 
-      <div>
-        <label class="block font-semibold mb-2">4. Assessment Methods – Alignment with learning outcomes?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q85" value="1" required> 1</label>
-          <label><input type="radio" name="q85" value="2"> 2</label>
-          <label><input type="radio" name="q85" value="3"> 3</label>
-          <label><input type="radio" name="q85" value="4"> 4</label>
-          <label><input type="radio" name="q85" value="5"> 5</label>
-        </div>
-      </div>
+        {% if q.category == "DEMOGRAPHIC" %}
 
-      <div>
-        <label class="block font-semibold mb-2">5. Overall satisfaction with the syllabus you learned?</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="q87" value="1" required> 1</label>
-          <label><input type="radio" name="q87" value="2"> 2</label>
-          <label><input type="radio" name="q87" value="3"> 3</label>
-          <label><input type="radio" name="q87" value="4"> 4</label>
-          <label><input type="radio" name="q87" value="5"> 5</label>
-        </div>
-      </div>
+  {% set text_lower = q.text | lower %}
 
-      <div>
-        <label class="block font-semibold mb-2">Suggestions for Improvement </label>
-        <textarea name="q88" class="w-full border p-2 rounded-lg" rows="3" placeholder="Enter your suggestions here..."></textarea>
-      </div>
+  {% if "course" in text_lower
+        or "program" in text_lower
+        or "stream" in text_lower %}
 
-      <div class="text-center">
-        <button type="submit"
-  class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+    <!-- COURSE / PROGRAM / STREAM -->
+    <div class="flex gap-4 flex-wrap">
+      {% for option in [
+        "BCom",
+        "B.Com (Accounting & Finance)",
+        "B.Com (Banking & Insurance)",
+        "B.Com (Financial Market)",
+        "BSc IT",
+        "BSc CS",
+        "BMS",
+        "BAMMC",
+        "BSc DS",
+        "MCom",
+        "MA Economics",
+        "MSc IT",
+        "MSc CS",
+        "OTHER"
+      ] %}
+      <label class="flex items-center gap-2">
+        <input
+          type="radio"
+          name="q_{{ q.id }}"
+          value="{{ option }}"
+          required
+        >
+        {{ option }}
+      </label>
+      {% endfor %}
+    </div>
+
+  {% elif "class" in text_lower
+        or "year" in text_lower
+        or "fy" in text_lower
+        or "sy" in text_lower
+        or "ty" in text_lower %}
+
+    <!-- YEAR / CLASS -->
+    <div class="flex gap-4 flex-wrap">
+      {% for option in ["FY", "SY", "TY", "PG-1", "PG-2"] %}
+      <label class="flex items-center gap-2">
+        <input
+          type="radio"
+          name="q_{{ q.id }}"
+          value="{{ option }}"
+          required
+        >
+        {{ option }}
+      </label>
+      {% endfor %}
+    </div>
+
+  {% else %}
+
+    <!-- GENERIC DEMOGRAPHIC TEXT -->
+    <input
+      type="text"
+      name="q_{{ q.id }}"
+      required
+      class="w-full border border-gray-300 px-4 py-2 rounded-lg
+             focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+
+  {% endif %}
+
+        {% elif q.category == "SUGGESTION" %}
+          <!-- SUGGESTION -->
+          <textarea
+            name="q_{{ q.id }}"
+            rows="4"
+            placeholder="Enter your response here..."
+            class="w-full border border-gray-300 px-4 py-2 rounded-lg
+                   focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+
+        {% else %}
+          <!-- SYLLABUS (RATING 1–5) -->
+          <div class="flex gap-4 flex-wrap">
+            {% for i in range(1,6) %}
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="q_{{ q.id }}"
+                value="{{ i }}"
+                required
+                class="w-4 h-4"
+              >
+              {{ i }}
+            </label>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="text-center pt-6">
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-8 py-3 rounded-xl
+                 font-semibold hover:bg-blue-700 transition"
+        >
           Submit Alumni Feedback
         </button>
       </div>
@@ -95,11 +157,10 @@
     </form>
   </section>
 
+  <!-- FOOTER -->
   <footer class="text-center py-6 bg-gray-50 text-gray-600">
     © 2025 SIES College | Feedback Portal
   </footer>
-
-  <script src="/static/script.js"></script>
 
 </body>
 </html>

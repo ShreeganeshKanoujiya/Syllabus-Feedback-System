@@ -10,6 +10,7 @@
 
 <body class="bg-gray-50 text-gray-800">
 
+  <!-- HEADER -->
   <header class="flex justify-between items-center px-8 py-4 bg-white shadow-md">
     <div class="flex items-center gap-3">
       <img src="/static/images/sies_ascn_logo.jpg" class="h-12" alt="SIES Logo">
@@ -19,50 +20,109 @@
     </div>
   </header>
 
+  <!-- TITLE -->
   <section class="text-center py-16 bg-gradient-to-r from-blue-600 to-blue-400 text-white px-4">
     <h1 class="text-4xl font-bold mb-2">External Faculty Feedback Form</h1>
-    <p class="text-lg opacity-90">Please rate the following aspects from 1 (poor) to 5 (excellent)</p>
+    <p class="text-lg opacity-90">
+      Please rate the following aspects from 1 (poor) to 5 (excellent)
+    </p>
   </section>
 
+  <!-- FORM -->
   <section class="py-16 px-6 md:px-20 bg-white rounded-t-3xl shadow-md -mt-12">
     <form action="/submit-feedback" method="post" class="space-y-8">
-      <input type="hidden" name="form_name" value="{{ form_name }}">
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label class="block font-semibold mb-2">Faculty Name <span class="text-red-500">*</span></label>
-          <input type="text" name="name" required
-            class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div>
-          <label class="block font-semibold mb-2">Affiliation / College</label>
-          <input type="text" name="association_name"
-            class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-      </div>
+      <input type="hidden" name="form_name" value="{{ form_name }}">
 
       {% for q in questions %}
       <div>
-        <label class="block font-semibold mb-2">{{ loop.index }}. {{ q.text }} <span
-            class="text-red-500">*</span></label>
-        <div class="flex gap-4 flex-wrap">
-          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="1"
-              required class="w-4 h-4"> 1</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="2"
-              required class="w-4 h-4"> 2</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="3"
-              required class="w-4 h-4"> 3</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="4"
-              required class="w-4 h-4"> 4</label>
-          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="q_{{ q.id }}" value="5"
-              required class="w-4 h-4"> 5</label>
-        </div>
+        <label class="block font-semibold mb-2">
+          {{ loop.index }}. {{ q.text }}
+          {% if q.category != "SUGGESTION" %}
+            <span class="text-red-500">*</span>
+          {% endif %}
+        </label>
+
+        {% if q.category == "DEMOGRAPHIC" %}
+
+          {% set text_lower = q.text | lower %}
+
+          {% if "course" in text_lower or "program" in text_lower or "stream" in text_lower %}
+            <!-- COURSE / PROGRAM -->
+            <div class="flex gap-4 flex-wrap">
+              {% for option in [
+                "BCom",
+                "B.Com (Accounting & Finance)",
+                "B.Com (Banking & Insurance)",
+                "B.Com (Financial Market)",
+                "BSc IT",
+                "BSc CS",
+                "BMS",
+                "BAMMC",
+                "BSc DS",
+                "MCom",
+                "MA Economics",
+                "MSc IT",
+                "MSc CS",
+                "OTHER"
+              ] %}
+              <label class="flex items-center gap-2">
+                <input type="radio" name="q_{{ q.id }}" value="{{ option }}" required>
+                {{ option }}
+              </label>
+              {% endfor %}
+            </div>
+
+          {% elif "class" in text_lower or "year" in text_lower or "fy" in text_lower or "sy" in text_lower or "ty" in text_lower %}
+            <!-- YEAR -->
+            <div class="flex gap-4 flex-wrap">
+              {% for option in ["FY", "SY", "TY", "PG-1", "PG-2"] %}
+              <label class="flex items-center gap-2">
+                <input type="radio" name="q_{{ q.id }}" value="{{ option }}" required>
+                {{ option }}
+              </label>
+              {% endfor %}
+            </div>
+
+          {% else %}
+            <!-- GENERIC DEMOGRAPHIC -->
+            <input
+              type="text"
+              name="q_{{ q.id }}"
+              required
+              class="w-full border border-gray-300 px-4 py-2 rounded-lg
+                     focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          {% endif %}
+
+        {% elif q.category == "SUGGESTION" %}
+          <!-- SUGGESTION -->
+          <textarea
+            name="q_{{ q.id }}"
+            rows="4"
+            class="w-full border border-gray-300 px-4 py-2 rounded-lg
+                   focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+
+        {% else %}
+          <!-- SYLLABUS -->
+          <div class="flex gap-4 flex-wrap">
+            {% for i in range(1,6) %}
+            <label class="flex items-center gap-2">
+              <input type="radio" name="q_{{ q.id }}" value="{{ i }}" required>
+              {{ i }}
+            </label>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
       {% endfor %}
 
-      <div class="text-center">
-        <button type="submit"
-          class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+      <div class="text-center pt-6">
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-8 py-3 rounded-xl
+                 font-semibold hover:bg-blue-700 transition">
           Submit Feedback
         </button>
       </div>
@@ -70,11 +130,10 @@
     </form>
   </section>
 
+  <!-- FOOTER -->
   <footer class="text-center py-6 bg-gray-50 text-gray-600">
     © 2025 SIES College | Feedback Portal
   </footer>
-  <script src="../script.js"></script>
 
 </body>
-
 </html>

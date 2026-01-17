@@ -4,9 +4,11 @@ import os
 # Add 'app' directory to sys.path so 'from database import ...' works inside models.py
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "app"))
 
+
 from database import SessionLocal, engine
 from models import SyllabusQuestion
 from sqlalchemy.orm import Session
+
 
 def seed_questions():
     db = SessionLocal()
@@ -34,6 +36,7 @@ def seed_questions():
         print(f"Error seeding questions: {e}")
     finally:
         db.close()
+
 
 if __name__ == "__main__":
     seed_questions()

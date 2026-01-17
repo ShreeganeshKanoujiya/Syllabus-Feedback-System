@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String, TIMESTAMP, func, Text, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, TIMESTAMP, func, Text, ForeignKey, Enum
 from database import Base
 
 # 1. Table: stakeholders 
@@ -26,8 +26,16 @@ class StakeholderPersonalInfo(Base):
 # 4. Table: syllabus_question
 class SyllabusQuestion(Base):
     __tablename__ = "syllabus_question"
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    text = Column(String(255), nullable=False)
+    text = Column(Text, nullable=False)
+
+    stakeholder_type = Column(String(50), nullable=False)
+
+    category = Column(
+        Enum("DEMOGRAPHIC", "SYLLABUS", "SUGGESTION", name="question_category"),
+        nullable=False
+    )
 
 # 5. Table: admin_user 
 class AdminUser(Base):
