@@ -14,9 +14,20 @@ DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME")
 
-URL_DATABASE = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# build DATABASE_URL
+if DB_PASSWORD:
+    URL_DATABASE = (
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}"
+        f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )
+else:
+    URL_DATABASE = "mysql+pymysql://root@127.0.0.1:3306/syllabus_feedback_final"
 
-engine = create_engine(URL_DATABASE)
+engine = create_engine(
+    URL_DATABASE,
+    pool_pre_ping=True,
+    pool_recycle=3600
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

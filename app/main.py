@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request, HTTPException
 from typing import Annotated
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -28,3 +28,11 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # Configure Jinja2 to look in the templates folder
 templates = Jinja2Templates(directory="app/templates")
+
+@app.exception_handler(401)
+async def unauthorized_handler(request: Request, exc: HTTPException):
+    return templates.TemplateResponse(
+        "401.html",
+        {"request": request},
+        status_code=401
+    )

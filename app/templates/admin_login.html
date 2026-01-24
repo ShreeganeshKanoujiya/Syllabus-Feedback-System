@@ -51,14 +51,17 @@
                             class="w-full px-4 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2fa3c7] text-lg transition">
                     </div>
 
-                    <div class="text-right">
+                    <!-- <div class="text-right">
                         <a href="#" class="text-gray-500 hover:text-brand-blue font-medium transition">Forget Login details?</a>
-                    </div>
+                    </div> -->
 
                     <button type="submit" 
                         class="w-full brand-blue text-white font-bold py-4 rounded-lg hover:opacity-90 transition shadow-lg text-xl tracking-wide">
                         Login
                     </button>
+                    {% if error %}
+                        <p style="color:red">{{ error }}</p>
+                    {% endif %}
                 </form>
             </div>
         </div>

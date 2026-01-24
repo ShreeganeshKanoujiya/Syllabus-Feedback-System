@@ -1,14 +1,17 @@
-from fastapi import APIRouter, Request, Depends, Form
+from fastapi import APIRouter, Request, Depends, Form, status, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy import func, cast, Integer
 import models
 from database import SessionLocal
+from jose import JWTError
+from auth import verify_password, create_access_token, decode_access_token
 
-router = APIRouter(prefix="/admin") # All routes here start with /admin
+router = APIRouter(prefix="/admin") 
 templates = Jinja2Templates(directory="app/templates")
 
+# DB DEPENDENCY
 def get_db():
     db = SessionLocal()
     try:
@@ -16,18 +19,78 @@ def get_db():
     finally:
         db.close()
 
+# JWT AUTH DEPENDENCY
+def admin_required(request: Request):
+    token = request.cookies.get("access_token")
+
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    try:
+        payload = decode_access_token(token)
+        request.state.admin_id = payload.get("sub")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
 
 # Admin login
 @router.get("/login", response_class=HTMLResponse)
 async def admin_login_page(request: Request):
     return templates.TemplateResponse("admin_login.html", {"request": request})
 
+# LOGIN ACTION (JWT)
+@router.post("/login")
+async def admin_login(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    admin = db.query(models.AdminUser).filter(
+        models.AdminUser.username == username
+    ).first()
 
-@router.get("/dashboard", response_class=HTMLResponse)
+    if not admin or not verify_password(password, admin.password):
+        return templates.TemplateResponse(
+            "admin_login.html",
+            {
+                "request": request,
+                "error": "Invalid username or password"
+            },
+            status_code=401
+        )
+
+    token = create_access_token({"sub": str(admin.admin_id)})
+
+    response = RedirectResponse(
+        url="/admin/dashboard",
+        status_code=status.HTTP_302_FOUND
+    )
+
+    response.set_cookie(
+        key="access_token",
+        value=token,
+        httponly=True,
+        secure=False,     # True in production (HTTPS)
+        samesite="lax"
+    )
+
+    return response
+
+# LOGOUT
+@router.get("/logout")
+async def admin_logout():
+    response = RedirectResponse("/admin/login")
+    response.delete_cookie("access_token")
+    return response
+
+# DASHBOARD
+@router.get("/dashboard", response_class=HTMLResponse)  
 async def admin_dashboard(
     request: Request,
     stakeholder_id: int | None = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    _: None = Depends(admin_required)
 ):
     # Sidebar stakeholders
     stakeholders = db.query(models.Stakeholder).all()

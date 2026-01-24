@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS syllabus_feedback_final;
-USE syllabus_feedback_final;
+CREATE DATABASE IF NOT EXISTS syllabus_feedback;
+USE syllabus_feedback;
 
 
 DROP TABLE IF EXISTS feedback_answers;

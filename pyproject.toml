@@ -5,13 +5,17 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "argon2-cffi>=25.1.0",
     "cryptography>=46.0.3",
     "databases>=0.9.0",
     "fastapi[standard]>=0.127.0",
     "jinja2>=3.1.6",
+    "passlib[bcrypt]>=1.7.4",
     "pydantic>=2.12.5",
     "pymysql>=1.1.2",
     "python-dotenv>=1.2.1",
+    "python-jose>=3.5.0",
+    "python-multipart>=0.0.21",
     "sqlalchemy>=2.0.45",
     "uvicorn>=0.40.0",
 ]
