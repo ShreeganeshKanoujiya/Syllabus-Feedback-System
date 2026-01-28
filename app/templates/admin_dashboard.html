@@ -2,131 +2,277 @@
 <html lang="en">
 <head>
     <title>Admin Dashboard</title>
-    <link rel="icon" type="text/css" href="../static/images/logo_50x50.png">
+    <link rel="icon" type="image/png" href="../static/images/logo_50x50.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="bg-gray-100 flex flex-col">
 
-    <nav class="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-4 shadow-lg flex items-center justify-between">
-    <h1 class="text-2xl font-bold">Feedback Admin Panel</h1>
+<!-- TOP NAV -->
+<nav class="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-4 shadow-lg flex items-center justify-between">
+  <h1 class="text-2xl font-bold">Feedback Admin Panel</h1>
 
-    <!--  Logout Button -->
-    <a href="/admin/logout"
-       class="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold
+  <!--  Logout Button -->
+        <a href="/admin/logout" class="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold
               hover:bg-blue-100 transition">
-        Logout
-    </a>
+            Logout
+        </a>
 </nav>
 
-    <div class="flex flex-1">
+<div class="flex flex-1">
 
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6">
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-white shadow-lg min-h-screen p-6">
     <h2 class="bg-gradient-to-r from-blue-600 to-blue-400 text-white text-lg font-bold mb-4 px-3 py-2 rounded">
-        Stakeholders
+      Stakeholders
     </h2>
 
     <ul class="space-y-2">
-        <li>
-            <a href="/admin/dashboard"
-               class="block px-3 py-2 rounded
-               {% if not selected_stakeholder %}bg-blue-100 font-bold{% endif %}">
-                All
-            </a>
-        </li>
+      <li>
+        <a href="/admin/dashboard"
+           class="block px-3 py-2 rounded {% if not selected_stakeholder %}bg-blue-100 font-bold{% endif %}">
+          All
+        </a>
+      </li>
 
-        {% for s in stakeholders %}
-        <li>
-            <a href="/admin/dashboard?stakeholder_id={{ s.stakeholder_id }}"
-               class="block px-3 py-2 rounded hover:bg-gray-100
-               {% if selected_stakeholder == s.stakeholder_id %}bg-blue-100 font-bold{% endif %}">
-                {{ s.stakeholder_type }}
-            </a>
-        </li>
-        {% endfor %}
+      {% for s in stakeholders %}
+      <li>
+        <a href="/admin/dashboard?stakeholder_id={{ s.stakeholder_id }}"
+           class="block px-3 py-2 rounded hover:bg-gray-100
+           {% if selected_stakeholder == s.stakeholder_id %}bg-blue-100 font-bold{% endif %}">
+          {{ s.stakeholder_type }}
+        </a>
+      </li>
+      {% endfor %}
     </ul>
-</aside>
+  </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 p-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 p-8">
 
-        <!-- Total Responses -->
-        <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500">
-            <h3 class="text-gray-500 font-semibold">Total Responses</h3>
-            <p class="text-4xl font-bold">{{ total_feedback }}</p>
+    <!-- TOP GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+
+      <div class="space-y-6">
+
+        <!-- TOTAL RESPONSES -->
+        <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
+          <h3 class="text-sm text-gray-500 font-semibold uppercase">Total Responses</h3>
+          <p class="text-3xl font-bold text-blue-700 mt-1">
+            {{ total_feedback }}
+          </p>
         </div>
 
-        <!-- Chart -->
-        <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500">
-            <h3 class="text-xl font-bold mb-4">Average Rating per Question</h3>
-            <canvas id="feedbackChart"></canvas>
+        {% if selected_stakeholder %}
+        <!-- QUESTION REFERENCE -->
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <h3 class="text-lg font-bold mb-3">Question Reference</h3>
+
+          <div class="max-h-96 overflow-y-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-gray-100 border-b">
+                  <th class="px-2 py-2 w-20">Q No.</th>
+                  <th class="px-2 py-2">Question</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for q in questions %}
+                <tr class="border-b hover:bg-gray-50">
+                  <td class="px-2 py-2 font-semibold text-blue-700">
+                    q{{ loop.index }}
+                  </td>
+                  <td class="px-2 py-2">{{ q.text }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
+        {% endif %}
+
+      </div>
+
+      <!-- CHART -->
+      <div class="md:col-span-2 bg-white p-6 rounded-xl shadow-md">
+        <h3 class="text-xl font-bold mb-4">
+          {% if mode == "ALL" %}
+            Cumulative Average Rating by Stakeholder
+          {% else %}
+            Average Rating per Question
+          {% endif %}
+        </h3>
+        <canvas id="feedbackChart"></canvas>
+      </div>
 
     </div>
-</main>
 
-    <!-- Chart Script -->
-  <script>
+    {% if selected_stakeholder %}
+
+                  <!-- EXPORT BUTTONS WRAPPER -->
+    <div class="flex items-center justify-between mb-4">
+
+      <!-- STAKEHOLDER CSV EXPORT -->
+      {% if selected_stakeholder %}
+      <a
+        href="/admin/export/stakeholder?stakeholder_id={{ selected_stakeholder }}{% if selected_stream %}&stream={{ selected_stream }}{% endif %}"
+        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
+      >
+        Export CSV (This Stakeholder)
+      </a>
+      {% endif %}
+        <!-- ALL STAKEHOLDER CSV EXPORT -->
+        <a
+            href="/admin/export/all"
+            class="bg-green-400 text-black px-4 py-2 rounded hover:bg-green-600 text-sm"
+          >
+            Export CSV (All)
+          </a>
+
+    </div>
+
+    <!-- FILTER + SAVE BAR (FIXED) -->
+    <div class="flex justify-between items-center mb-4">
+
+      <!-- STREAM FILTER (FIXED) -->
+              <form method="get" action="/admin/dashboard" class="flex items-center gap-3">
+          <input type="hidden" name="stakeholder_id" value="{{ selected_stakeholder }}">
+
+          <label class="font-semibold text-sm">Filter by Stream:</label>
+
+          <select
+            name="stream"
+            onchange="this.form.submit()"
+            class="border border-gray-300 rounded px-3 py-2 text-sm"
+          >
+            <option value="">All</option>
+            {% for s in stream_options %}
+            <option value="{{ s }}" {% if s == selected_stream %}selected{% endif %}>
+              {{ s }}
+            </option>
+            {% endfor %}
+          </select>
+        </form>
+
+
+      <button
+        onclick="saveDemographicEdits()"
+        class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 text-sm">
+        Save Demographic Changes
+      </button>
+    </div>
+
+
+
+    <!-- RESPONSES TABLE -->
+    <div class="overflow-x-auto max-h-[36rem] overflow-y-auto bg-white rounded-xl shadow-md">
+      <table class="w-full border-collapse text-sm text-left table-fixed">
+
+        <thead>
+          <tr class="bg-gray-100 border-b">
+            <th class="px-3 py-2 sticky left-0 bg-gray-100 z-20">ID</th>
+
+            {% for d in demographic_headers %}
+            <th class="px-3 py-2 bg-gray-100 border-l-4 border-yellow-400">
+              {{ d.label }}
+            </th>
+            {% endfor %}
+
+            {% for q in question_numbers %}
+            <th class="px-3 py-2 text-center">{{ q }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for row in responses_table %}
+          <tr class="border-b hover:bg-gray-50">
+
+            <td class="px-3 py-2 sticky left-0 bg-white z-10 font-semibold">
+              {{ row.person_id }}
+            </td>
+
+
+
+            {% for d in demographic_headers %}
+            <td class="px-3 py-2">
+              <input
+                type="text"
+                value="{{ row[d.key] if d.key in row else '' }}"
+                data-person-id="{{ row.person_id }}"
+                data-question-id="{{ d.question_id }}"
+                class="demo-input border border-gray-300 rounded px-2 py-1 w-full text-sm">
+            </td>
+            {% endfor %}
+
+            {% for q in question_numbers %}
+            <td class="px-3 py-2 text-center text-gray-600">
+              {{ row[q] if q in row else "-" }}
+            </td>
+            {% endfor %}
+
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+
+    {% endif %}
+  </main>
+</div>
+
+<!-- CHART SCRIPT -->
+<script>
 {% if mode == "ALL" %}
-    const labels = {{ results | map(attribute='label') | list | tojson }};
-    const dataValues = {{ results | map(attribute='average_score') | list | tojson }};
-
-    new Chart(document.getElementById("feedbackChart"), {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Cumulative Average Rating",
-                data: dataValues
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    min: 0,
-                    max: 5,
-                    title: {
-                        display: true,
-                        text: "Average Rating"
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: "Stakeholder"
-                    }
-                }
-            }
-        }
-    });
-
+const labels = {{ results | map(attribute='label') | list | tojson }};
+const dataValues = {{ results | map(attribute='average_score') | list | tojson }};
 {% else %}
-    const labels = {{ results | map(attribute='question') | list | tojson }};
-    const dataValues = {{ results | map(attribute='average_score') | list | tojson }};
-
-    new Chart(document.getElementById("feedbackChart"), {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: "Average Rating per Question",
-                data: dataValues
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    min: 0,
-                    max: 5
-                }
-            }
-        }
-    });
+const labels = {{ results | map(attribute='question') | list | tojson }};
+const dataValues = {{ results | map(attribute='average_score') | list | tojson }};
 {% endif %}
+
+new Chart(document.getElementById("feedbackChart"), {
+  type: "bar",
+  data: {
+    labels: labels,
+    datasets: [{
+      label: "Average Rating",
+      data: dataValues
+    }]
+  },
+  options: {
+    scales: {
+      y: { min: 0, max: 5 }
+    }
+  }
+});
 </script>
 
-    </div>
+<!-- SAVE DEMOGRAPHIC EDITS -->
+<script>
+async function saveDemographicEdits() {
+  const inputs = document.querySelectorAll(".demo-input");
+  const payload = [];
+
+  inputs.forEach(i => {
+    payload.push({
+      person_id: i.dataset.personId,
+      question_id: i.dataset.questionId,
+      value: i.value
+    });
+  });
+
+  const res = await fetch("/admin/update-responses", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  alert(res.ok ? "Saved successfully" : "Save failed");
+}
+</script>
+
 </body>
 </html>
