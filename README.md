@@ -11,8 +11,6 @@ A web-based system designed to collect, manage, and analyze feedback on course s
 - Database-driven architecture with MySQL
 - RESTful API endpoints
 
-## Getting Started
-
 ### Prerequisites
 - Python 3.11 or higher
 - uv (Python package manager and runtime)
@@ -54,6 +52,19 @@ The application will start on `http://localhost:8000`
 ├── setup_database.sql         # Database initialization script
 └── README.md
 ```
+
+
+## Getting Started
+How to setup 
+Step1: pip install uv
+Step2: Clone repo
+Step3: cd dir to syllabus-feedback-system
+Step4: Run on terminal "uv sync"
+Step5: Run database_setup.sql script in MySQL
+Step6: Change credentials in .env file according to your Mysql credentials 
+Step7: Run on terminal "uv run fastapi dev app/main.py"
+Step8: Open and change username or password in create_admin.py
+Step9: Run create_admin.py file
 
 ## Contributing
 Contributions are welcome. Please submit a pull request with a clear description of changes.
