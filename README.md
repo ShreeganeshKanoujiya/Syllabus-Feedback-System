@@ -55,7 +55,7 @@ The application will start on `http://localhost:8000`
 
 
 ## Getting Started
-How to setup 
+How to setup<br>
 **Step1:** pip install uv<br>
 **Step2:** Clone repo<br>
 **Step3:** cd dir to syllabus-feedback-system<br>
