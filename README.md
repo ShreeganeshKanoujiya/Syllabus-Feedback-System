@@ -56,15 +56,15 @@ The application will start on `http://localhost:8000`
 
 ## Getting Started
 How to setup 
-Step1: pip install uv
-Step2: Clone repo
-Step3: cd dir to syllabus-feedback-system
-Step4: Run on terminal "uv sync"
-Step5: Run database_setup.sql script in MySQL
-Step6: Change credentials in .env file according to your Mysql credentials 
-Step7: Run on terminal "uv run fastapi dev app/main.py"
-Step8: Open and change username or password in create_admin.py
-Step9: Run create_admin.py file
+**Step1:** pip install uv<br>
+**Step2:** Clone repo<br>
+**Step3:** cd dir to syllabus-feedback-system<br>
+**Step4:** Run on terminal "uv sync"<br>
+**Step5:** Run database_setup.sql script in MySQL<br>
+**Step6:** Change credentials in .env file according to your Mysql credentials <br>
+**Step7:** Run on terminal "uv run fastapi dev app/main.py"<br>
+**Step8:** Open and change username or password in create_admin.py<br>
+**Step9:** Run create_admin.py file
 
 ## Contributing
 Contributions are welcome. Please submit a pull request with a clear description of changes.
