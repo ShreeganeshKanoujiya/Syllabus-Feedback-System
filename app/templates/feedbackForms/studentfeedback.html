@@ -79,11 +79,28 @@
       {% endfor %}
     </div>
 
-  {% elif "class" in text_lower
-        or "year" in text_lower
-        or "fy" in text_lower
-        or "sy" in text_lower
-        or "ty" in text_lower %}
+{% elif "academic year" in text_lower %}
+
+  <!-- ACADEMIC YEAR -->
+  <div class="flex gap-4 flex-wrap">
+    {% for option in ["2023–24", "2024–25", "2025–26", "2026–27"] %}
+    <label class="flex items-center gap-2">
+      <input
+        type="radio"
+        name="q_{{ q.id }}"
+        value="{{ option }}"
+        required
+      >
+      {{ option }}
+    </label>
+    {% endfor %}
+  </div>
+
+{% elif "class" in text_lower
+      or "fy" in text_lower
+      or "sy" in text_lower
+      or "ty" in text_lower %}
+
 
     <!-- YEAR / CLASS -->
     <div class="flex gap-4 flex-wrap">
