@@ -360,7 +360,8 @@ async def admin_dashboard(
 @router.post("/update-responses")
 async def update_demographic_responses(
     updates: list[dict],
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    _: None = Depends(admin_required)
 ):
     for item in updates:
         person_id = item["person_id"]
@@ -393,7 +394,8 @@ async def update_demographic_responses(
 def export_stakeholder_csv(
     stakeholder_id: int,
     stream: str | None = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    _: None = Depends(admin_required)
 ):
     stakeholder = db.query(models.Stakeholder).filter(
         models.Stakeholder.stakeholder_id == stakeholder_id
@@ -521,7 +523,8 @@ def export_stakeholder_csv(
 
 
 @router.get("/export/all")
-def export_all_csv(db: Session = Depends(get_db)):
+def export_all_csv(db: Session = Depends(get_db),
+                   _: None = Depends(admin_required)):
     output = io.StringIO()
     writer = csv.writer(output)
 
