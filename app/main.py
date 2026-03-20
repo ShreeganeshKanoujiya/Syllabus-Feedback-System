@@ -7,7 +7,11 @@ from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from routes import client, admin
 
-app = FastAPI()
+app = FastAPI(
+    docs_url=None,
+    redoc_url=None,      
+    openapi_url=None
+)
 # Include Routers
 app.include_router(client.router)
 app.include_router(admin.router)
